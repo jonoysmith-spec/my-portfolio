@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Jonoy Smith</title>
+    <style>
+        /* Base Setup */
+        * {
+            box-sizing: border-box;
+        }
+		
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #3b82f6; /* Bright blue outer background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Abstract Background Elements */
+        .shape-top-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-top: 140px solid rgba(255, 255, 255, 0.3);
+            border-right: 140px solid transparent;
+            z-index: 1;
+        }
+
+        .shape-top-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-top: 100px solid rgba(255, 255, 255, 0.3);
+            border-left: 100px solid transparent;
+            z-index: 1;
+        }
+
+        .shape-mid-left {
+            position: absolute;
+            left: -20px;
+            top: 58%;
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .shape-mid-right {
+            position: absolute;
+            right: 0;
+            top: 35%;
+            width: 0;
+            height: 0;
+            border-top: 30px solid transparent;
+            border-bottom: 30px solid transparent;
+            border-right: 45px solid rgba(255, 255, 255, 0.3);
+            z-index: 1;
+        }
+
+        /* Main White Card Container */
+        .portfolio-container {
+            width: 97%;
+            max-width: 1330px;
+            background-color: #ffffff;
+            border-radius: 36px;
+            padding: 30px 60px 80px 60px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Header Navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 70px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-avatar {
+            background-color: #111827;
+            color: #ffffff;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .logo-name span {
+            font-weight: 400;
+            color: #4b5563;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 12px;
+        }
+
+        nav a {
+			text-decoration: none;
+			color: #1f2937;
+			background-color: #e0ecfb;
+			padding: 8px 16px; /* Uniform horizontal padding */
+			border-radius: 20px;
+			font-size: 14px;
+			font-weight: 500;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
+			transition: all 0.2s ease;
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+		}
+        nav a:hover {
+            background-color: #cbdcf7;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+            transform: translateY(-1px);
+        }
+
+        /* Active Page Indicator */
+        nav a.active {
+            background-color: #3b82f6;
+            color: #ffffff;
+        }
+
+        /* Construction Badge Styling */
+        .construction-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            background-color: #fef3c7;
+            color: #b45309;
+            border: 1px solid #fde68a;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 10px;
+            line-height: 1;
+        }
+
+        .construction-badge svg {
+            width: 11px;
+            height: 11px;
+            stroke: #b45309;
+        }
+
+        /* Construction Hero Area */
+        .construction-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px 20px 20px;
+            min-height: 400px;
+        }
+
+        .icon-wrapper {
+            width: 90px;
+            height: 90px;
+            background-color: #fef3c7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.15);
+            animation: bounce 2.5s infinite ease-in-out;
+        }
+
+        .icon-wrapper svg {
+            width: 44px;
+            height: 44px;
+            stroke: #d97706;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .construction-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: #111827;
+            margin: 0 0 12px 0;
+        }
+
+        .construction-bio {
+            font-size: 14px;
+            color: #4b5563;
+            max-width: 480px;
+            line-height: 1.6;
+            margin: 0 0 30px 0;
+        }
+
+        .construction-actions {
+            display: flex;
+            gap: 14px;
+        }
+
+        .btn {
+            padding: 10px 28px;
+            border-radius: 20px;
+            border: none;
+            background-color: #e5e7eb;
+            color: #1f2937;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: #3b82f6;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+            box-shadow: 0 6px 14px rgba(59, 130, 246, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .btn:hover {
+            background-color: #d1d5db;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.16);
+            transform: translateY(-1px);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px 10px;
+            }
+
+            .portfolio-container {
+                padding: 30px 25px;
+                border-radius: 24px;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 20px;
+                margin-bottom: 40px;
+            }
+
+            .construction-title {
+                font-size: 26px;
+            }
+
+            .construction-actions {
+                flex-direction: column;
+                width: 100%;
+                max-width: 260px;
+            }
+
+            .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="shape-top-left"></div>
+    <div class="shape-top-right"></div>
+    <div class="shape-mid-left"></div>
+    <div class="shape-mid-right"></div>
+
+    <div class="portfolio-container">
+
+        <header>
+            <a href="index.html" class="logo-container">
+                <div class="logo-avatar">JS</div>
+                <div class="logo-name">Jonoy <span>Smith</span></div>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="portfolio.html" class="active">
+                            Portfolio
+                            <span class="construction-badge">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                                </svg>
+                                Soon
+                            </span>
+                        </a>
+                    </li>
+                    <li><a href="resume.html">Resume</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section class="construction-section">
+            <div class="icon-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
+            </div>
+            <h1 class="construction-title">Case Studies Coming Soon</h1>
+            <p class="construction-bio">
+                I am currently putting the finishing touches on my UI/UX design case studies, mobile prototypes, and process breakdowns. Check back soon for full updates!
+            </p>
+            <div class="construction-actions">
+                <a href="index.html" class="btn btn-primary">Back to Home</a>
+                <a href="Original Resume_Jonoy Smith (1).pdf" target="_blank" class="btn">View Resume</a>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
