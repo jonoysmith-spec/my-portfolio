@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Native HTML PDF Viewer</title>
+</head>
+<body>
+
+    <!--
+	<h2>Using an iFrame:</h2>
+    <iframe src="Original Resume_Jonoy Smith (1).pdf" width="100%" height="600px">
+        <p>Your browser does not support iFrames. 
+           <a href="Original Resume_Jonoy Smith (1).pdf">Download the PDF instead.</a>
+        </p>
+    </iframe>
+	-->
+
+    <h2>Using an Object Tag (Better Fallback):</h2>
+    <object data="Original Resume_Jonoy Smith (1).pdf" type="application/pdf" width="100%" height="600px">
+        <p>Your browser does not support embedded PDFs. 
+           <a href="Original Resume_Jonoy Smith (1).pdf">Click here to download.</a>
+        </p>
+    </object>
+
+</body>
+</html>

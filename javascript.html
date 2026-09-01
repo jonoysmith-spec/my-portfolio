@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Custom JS PDF Viewer</title>
+    <!-- Include PDF.js library via CDN -->
+    <script src="https://cloudflare.com"></script>
+    <style>
+        #canvas-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            overflow: auto;
+        }
+        canvas { display: block; margin: 0 auto; }
+        .controls { text-align: center; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <button id="prev-page">Previous</button>
+        <span>Page: <span id="page-num">1</span> / <span id="page-count">-</span></span>
+        <button id="next-page">Next</button>
+    </div>
+
+    <div id="canvas-container">
+        <canvas id="pdf-canvas"></canvas>
+    </div>
+
+    <script>
+        // Point to the CDN worker script required by PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cloudflare.com';
+
+        let pdfDoc = null,
+            pageNum = 1,
+            pageIsRendering = false,
+            pageNumIsPending = null;
+
+        const scale = 1.5,
+              canvas = document.getElementById('pdf-canvas'),
+              ctx = canvas.getContext('2d');
+
+        // Render the target page
+        function renderPage(num) {
+            pageIsRendering = true;
+            document.getElementById('page-num').textContent = num;
+
+            pdfDoc.getPage(num).then(page => {
+                const viewport = page.getViewport({ scale: scale });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                const renderCtx = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+
+                page.render(renderCtx).promise.then(() => {
+                    pageIsRendering = false;
+                    if (pageNumIsPending !== null) {
+                        renderPage(pageNumIsPending);
+                        pageNumIsPending = null;
+                    }
+                });
+            });
+        }
+
+        // Check for pages queued for rendering
+        function queueRenderPage(num) {
+            if (pageIsRendering) {
+                pageNumIsPending = num;
+            } else {
+                renderPage(num);
+            }
+        }
+
+        // Show Previous Page
+        document.getElementById('prev-page').addEventListener('click', () => {
+            if (pageNum <= 1) return;
+            pageNum--;
+            queueRenderPage(pageNum);
+        });
+
+        // Show Next Page
+        document.getElementById('next-page').addEventListener('click', () => {
+            if (pageNum >= pdfDoc.numPages) return;
+            pageNum++;
+            queueRenderPage(pageNum);
+        });
+
+        // Load the actual Document
+        pdfjsLib.getDocument('sample.pdf').promise.then(pdfDoc_ => {
+            pdfDoc = pdfDoc_;
+            document.getElementById('page-count').textContent = pdfDoc.numPages;
+            renderPage(pageNum);
+        }).catch(err => {
+            console.error('Error loading PDF: ', err);
+        });
+    </script>
+</body>
+</html>
